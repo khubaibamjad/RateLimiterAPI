@@ -11,8 +11,8 @@ public class NaiveRateLimiter {
 
     ConcurrentHashMap<String, AtomicInteger> clientCounters = new ConcurrentHashMap<>();
 
-    public boolean allow(String ClientId) {
-        AtomicInteger counter = clientCounters.computeIfAbsent(ClientId, key -> new AtomicInteger(0));
+    public boolean allow(String clientId) {
+        AtomicInteger counter = clientCounters.computeIfAbsent(clientId, key -> new AtomicInteger(0));
        int currentCount = counter.incrementAndGet();
        return currentCount<=5;
     }
