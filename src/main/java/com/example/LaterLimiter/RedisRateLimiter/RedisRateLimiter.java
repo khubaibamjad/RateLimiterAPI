@@ -32,7 +32,25 @@ public class RedisRateLimiter {
         long timestamp = (timeStampStr==null) ? now: Long.parseLong(timeStampStr);
 
 
-        return true;
+        double elapsedTime = (now - timestamp)/1000.0;
+        double refillAmount = elapsedTime*refillRate;
+        double newTokenCount = Math.min(capacity, token +refillAmount);
+
+        boolean allowed;
+
+        if(newTokenCount>=1)
+        {
+            newTokenCount = newTokenCount -1;
+            allowed = true;
+        }
+        else
+        {
+            allowed = false;
+        }
+        redisTemplate.opsForHash().put(key, "tokens", newTokenCount);
+        redisTemplate.opsForHash().put(key,"timestamp", now);
+
+        return allowed;
     }
 
 }
