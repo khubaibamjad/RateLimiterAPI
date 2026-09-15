@@ -9,20 +9,29 @@ public class RedisRateLimiter {
 
     private final StringRedisTemplate redisTemplate;
 
-    long capacity = 10;
-    double refillRate = 2.0;
+    private final long capacity = 10;
+    private final double refillRate = 2.0;
 
     public RedisRateLimiter(StringRedisTemplate redisTemplate)
     {
         this.redisTemplate = redisTemplate;
     }
 
-    Boolean allow(String clientId)
+    boolean allow(String clientId)
     {
         String key = "ratelimit:" + clientId;
 
-        String tokenStr = (String) redisTemplate.opsForHash().get("key", "tokens");
-        String timeStamp = (String) redisTemplate.opsForHash().get("key","timestamp");
+        String tokenStr = (String) redisTemplate.opsForHash().get(key, "tokens");
+        String timeStampStr = (String) redisTemplate.opsForHash().get(key,"timestamp");
+
+
+        long now = System.currentTimeMillis();
+
+
+        double token = (tokenStr==null) ? capacity: Double.parseDouble(tokenStr);
+        long timestamp = (timeStampStr==null) ? now: Long.parseLong(timeStampStr);
+
+
         return true;
     }
 
