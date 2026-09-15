@@ -11,7 +11,7 @@ public class NaiveRateLimiter {
 
     ConcurrentHashMap<String, AtomicInteger> ClientIdentifier = new ConcurrentHashMap<>();
 
-    public static boolean allow(String ClientId) {
+    public boolean allow(String ClientId) {
         int limit = 5;
         int count = 0;
 
