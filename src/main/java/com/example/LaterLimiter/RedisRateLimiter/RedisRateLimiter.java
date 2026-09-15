@@ -12,12 +12,11 @@ public class RedisRateLimiter {
     private final long capacity = 10;
     private final double refillRate = 2.0;
 
-    public RedisRateLimiter(StringRedisTemplate redisTemplate)
-    {
+    public RedisRateLimiter(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
-    boolean allow(String clientId)
+    public boolean allow(String clientId)
     {
         String key = "ratelimit:" + clientId;
 
