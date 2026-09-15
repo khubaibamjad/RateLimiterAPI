@@ -47,8 +47,8 @@ public class RedisRateLimiter {
         {
             allowed = false;
         }
-        redisTemplate.opsForHash().put(key, "tokens", newTokenCount);
-        redisTemplate.opsForHash().put(key,"timestamp", now);
+        redisTemplate.opsForHash().put(key, "tokens",String.valueOf(newTokenCount));
+        redisTemplate.opsForHash().put(key,"timestamp", String.valueOf(now));
 
         return allowed;
     }
