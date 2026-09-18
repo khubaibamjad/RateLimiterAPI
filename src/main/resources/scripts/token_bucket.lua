@@ -14,7 +14,7 @@ if tokens == nil then
 
 end
 
-local elapsed_seconds = math.max(0, now - last_refill /1000)
+local elapsed_seconds = math.max(0,( now - last_refill /1000))
 local refilled = tokens + (elapsed_seconds * refill_rate)
 tokens = math.min(capacity, refilled)
 
