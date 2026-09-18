@@ -15,7 +15,7 @@ if tokens == nil then
 end
 
 local elapsed_seconds = Math.max(0, now - last_refill /1000)
-local refilled = tokens + (elsapsed_seonds * refill_rate)
+local refilled = tokens + (elapsed_seconds * refill_rate)
 tokens = Math.min(capacity, refilled)
 
 if tokens >= requested then
@@ -23,8 +23,12 @@ if tokens >= requested then
 	allowed = 1
 
 	else
-	local deficit = request - tokens
+	local deficit = requested - tokens
 	retry_after_millis = math.ciel((deficit/refill_rate)*1000)
 
 	end
 
+redis.call("HMSET", key, "tokens",tostring(tokes), "timestamp", tostring(now))
+redis.call ("EXPIRE", key, 3600)
+
+return { allowed, tostring(tokens),retry_after_millis}
