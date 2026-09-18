@@ -17,3 +17,14 @@ end
 local elapsed_seconds = Math.max(0, now - last_refill /1000)
 local refilled = tokens + (elsapsed_seonds * refill_rate)
 tokens = Math.min(capacity, refilled)
+
+if tokens >= requested then
+	tokens = tokens - requested
+	allowed = 1
+
+	else
+	local deficit = request - tokens
+	retry_after_millis = math.ciel((deficit/refill_rate)*1000)
+
+	end
+
